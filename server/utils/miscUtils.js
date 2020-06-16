@@ -19,14 +19,22 @@ function sanitizeNumbers(numArray) {
 }
 
 function hoursBetween(dateFrom, dateTo, absoluteValue = false) {
+  if (Object.prototype.toString.call(dateFrom) !== '[object Date]')
+    throw new TypeError('`dateFrom` must be a date object');
+
+  if (Object.prototype.toString.call(dateTo) !== '[object Date]')
+    throw new TypeError('`dateTo` must be a date object');
+
   let timeDifference = dateTo.getTime() - dateFrom.getTime();
   if (absoluteValue) timeDifference = Math.abs(timeDifference);
   return timeDifference / (1000 * 3600);
 }
 
 function percentiles(values, percentilePoints) {
-  if (!Array.isArray(values) || !Array.isArray(percentilePoints))
-    throw new TypeError('values and percentilePoints must be arrays');
+  if (!Array.isArray(values)) throw new TypeError('`values` must be an array');
+
+  if (!Array.isArray(percentilePoints) || percentilePoints.length === 0)
+    throw new TypeError('`percentilePoints` must be a non-empty array');
 
   return percentilePoints
     .map(percentilePoint => _calculatePercentile(values, percentilePoint))
@@ -38,7 +46,7 @@ function percentiles(values, percentilePoints) {
 
 function _calculatePercentile(values, percentile) {
   if (!values || values.length === 0) return 0;
-  if (typeof percentile !== 'number') throw new TypeError('percentile must be a number');
+  if (typeof percentile !== 'number') throw new TypeError('`percentile` must be a number');
 
   let rank = (percentile / 100) * (values.length + 1);
 

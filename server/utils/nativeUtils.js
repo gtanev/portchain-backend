@@ -32,9 +32,9 @@ Array.prototype.sortAndLimit = function (sortKeys, sortDir, limit) {
     });
   }
 
-  function sortByKey(p1, p2, key) {
-    if (p1.getNestedProperty(key) < p2.getNestedProperty(key)) return sortDir === 'desc' ? 1 : -1;
-    if (p1.getNestedProperty(key) > p2.getNestedProperty(key)) return sortDir === 'desc' ? -1 : 1;
+  function sortByKey(o1, o2, key) {
+    if (o1.getNestedProperty(key) < o2.getNestedProperty(key)) return sortDir === 'desc' ? 1 : -1;
+    if (o1.getNestedProperty(key) > o2.getNestedProperty(key)) return sortDir === 'desc' ? -1 : 1;
     return 0;
   }
 
@@ -52,8 +52,8 @@ Object.prototype.getNestedProperty = function (propertyName) {
 };
 
 Number.prototype.round = function (decimalPoints = 0) {
-  if (!Number.isInteger(decimalPoints)) throw new TypeError('argument value must be an integer');
-  if (decimalPoints < 0) throw new RangeError('argument value must be greater than or equal to 0');
+  if (!Number.isInteger(decimalPoints)) throw new TypeError('`decimalPoints` must be an integer');
+  if (decimalPoints < 0) throw new RangeError('`decimalPoints` must be greater than or equal to 0');
   const n = Math.pow(10, decimalPoints);
   return Math.round(this * n) / n;
 };
